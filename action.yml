@@ -1,0 +1,20 @@
+name: 'Jira Set Version'
+description: 'Sets the fix version on jira tickets'
+inputs:
+  url:
+    description: "jira rest url (not including /rest/api/...)"
+    required: true
+  token:
+    description: "a jira api token"
+    required: true
+  project:
+    description: "the jira project"
+    required: true
+  version:
+    description: "the version to be set"
+    required: true
+  tickets:
+    description: "comma-separated list of jira ticket ids"
+runs:
+  using: 'docker'
+  image: 'Dockerfile'

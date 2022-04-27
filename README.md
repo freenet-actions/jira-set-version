@@ -6,7 +6,6 @@ This action sets the fix version on one or more jira tickets.
 
 * url: the jira base url, e.g. https://jiratest.freenet-group.de
 * token: an api token. See https://confluence.atlassian.com/enterprise/using-personal-access-tokens-1026032365.html
-* project: the jira project to create the version for
 * version: the version string to be set
 * tickets: a comma-separated list of jira ticket ids
 

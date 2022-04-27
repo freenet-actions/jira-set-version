@@ -7,9 +7,6 @@ inputs:
   token:
     description: "a jira api token"
     required: true
-  project:
-    description: "the jira project"
-    required: true
   version:
     description: "the version to be set"
     required: true

@@ -2,7 +2,6 @@
 
 URL=$INPUT_URL
 TOKEN=$INPUT_TOKEN
-PROJECT=$INPUT_PROJECT
 VERSION=$INPUT_VERSION
 TICKETS=$INPUT_TICKETS
 
@@ -36,22 +35,27 @@ function send {
   rm output.json
 }
 
-# create version
-send POST '/rest/api/2/version' "{ \"name\": \"$VERSION\", \"project\": \"$PROJECT\", \"released\": true }"
-if [[ $LAST_HTTP_STATUS == 400 ]];then
-  echo "The version $VERSION probably already exists. Continuing."
-elif [[ $LAST_HTTP_STATUS == 201 ]];then
-  echo "The version $VERSION has been created"
-else
-  echo "Something failed: $LAST_RESPONSE_BODY"
-  exit 1
-fi
-
 # iterate over all ticket ids
 export IFS=","
 # shellcheck disable=SC2066
 for ticketId in $TICKETS; do
 
+  # extract the jira project from the ticket which is expected to
+  # be the part before the hyphen.
+  PROJECT=$(sed -nE "s/(.+)-[0-9]+/\1/p" <<< "$ticketId")
+
+  # create version in this project
+  echo "Creation version $VERSION in project $PROJECT"
+  send POST '/rest/api/2/version' "{ \"name\": \"$VERSION\", \"project\": \"$PROJECT\", \"released\": true }"
+  if [[ $LAST_HTTP_STATUS == 400 ]];then
+    echo "The version $VERSION probably already exists. Continuing."
+  elif [[ $LAST_HTTP_STATUS == 201 ]];then
+    echo "The version $VERSION has been created"
+  else
+    echo "Something failed: $LAST_RESPONSE_BODY"
+    exit 1
+  fi
+  
   # set version on ticket
 
   echo "Setting version $VERSION on ticket $ticketId"

@@ -6,8 +6,10 @@ This action sets the fix version on one or more jira tickets.
 
 * url: the jira base url, e.g. https://jiratest.freenet-group.de
 * token: an api token. See https://confluence.atlassian.com/enterprise/using-personal-access-tokens-1026032365.html
+  or in case of Basic authorization https://developer.atlassian.com/cloud/jira/software/rest/intro/#introduction
 * version: the version string to be set
 * tickets: a comma-separated list of jira ticket ids
+* authorization: (optional) type of authorization, must be one of Basic|Bearer. Defaults to Bearer.
 
 # Development
 
@@ -22,4 +24,8 @@ docker build -t jira-set-version .
 ```
 ```shell
 docker run -e INPUT_URL=https://jiratest.freenet-group.de -e INPUT_TOKEN=XXX -e INPUT_PROJECT=OMS -e INPUT_VERSION=1.2.3 -e INPUT_TICKETS=OMS-12345 jira-set-version
+```
+or
+```
+docker run -e INPUT_URL=https://jiratest.freenet-group.de -e INPUT_TOKEN=XXX -e INPUT_PROJECT=OMS -e INPUT_VERSION=1.2.3 -e INPUT_TICKETS=OMS-12345 -e INPUT_AUTHORIZATION=Basic jira-set-version
 ```

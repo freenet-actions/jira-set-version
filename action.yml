@@ -12,6 +12,8 @@ inputs:
     required: true
   tickets:
     description: "comma-separated list of jira ticket ids"
+  authorization:
+    description: "Type of authorization, one of Basic|Bearer. Defaults to Bearer"
 runs:
   using: 'docker'
   image: 'Dockerfile'

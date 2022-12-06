@@ -4,6 +4,12 @@ URL=$INPUT_URL
 TOKEN=$INPUT_TOKEN
 VERSION=$INPUT_VERSION
 TICKETS=$INPUT_TICKETS
+AUTHORIZATION=$INPUT_AUTHORIZATION
+
+if [[ -z "$AUTHORIZATION" ]];then
+  AUTHORIZATION="Bearer"
+fi
+echo "Using authorization type $AUTHORIZATION"
 
 #
 # Performs a post request
@@ -28,7 +34,7 @@ function send {
     -s \
     -o output.json \
     --url "$URL$relativePath" \
-    --header "Authorization: Bearer $TOKEN" \
+    --header "Authorization: $AUTHORIZATION $TOKEN" \
     --header 'Content-Type: application/json' \
     --data "$requestBody")
   LAST_RESPONSE_BODY=$(cat output.json)
